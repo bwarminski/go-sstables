@@ -1,4 +1,4 @@
-module github.com/thomasjungblut/go-sstables
+module github.com/thomasjungblut/go-sstables/v2
 
 require (
 	github.com/anishathalye/porcupine v0.1.2
