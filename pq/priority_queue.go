@@ -3,7 +3,7 @@ package pq
 import (
 	"errors"
 	"fmt"
-	"github.com/thomasjungblut/go-sstables/skiplist"
+	"github.com/thomasjungblut/go-sstables/v2/skiplist"
 )
 
 // Done indicates an iterator has returned all items.

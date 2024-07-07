@@ -2,8 +2,8 @@ package proto
 
 import (
 	"github.com/stretchr/testify/assert"
-	w "github.com/thomasjungblut/go-sstables/wal"
-	"github.com/thomasjungblut/go-sstables/wal/test_files"
+	w "github.com/thomasjungblut/go-sstables/v2/wal"
+	"github.com/thomasjungblut/go-sstables/v2/wal/test_files"
 	"google.golang.org/protobuf/proto"
 	"os"
 	"testing"

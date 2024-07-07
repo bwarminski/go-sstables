@@ -2,10 +2,10 @@ package simpledb
 
 import (
 	"github.com/stretchr/testify/assert"
-	sdbProto "github.com/thomasjungblut/go-sstables/simpledb/proto"
-	"github.com/thomasjungblut/go-sstables/skiplist"
-	"github.com/thomasjungblut/go-sstables/sstables"
-	"github.com/thomasjungblut/go-sstables/sstables/proto"
+	sdbProto "github.com/thomasjungblut/go-sstables/v2/simpledb/proto"
+	"github.com/thomasjungblut/go-sstables/v2/skiplist"
+	"github.com/thomasjungblut/go-sstables/v2/sstables"
+	"github.com/thomasjungblut/go-sstables/v2/sstables/proto"
 	"os"
 	"path/filepath"
 	"reflect"

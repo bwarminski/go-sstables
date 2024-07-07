@@ -8,10 +8,10 @@ import (
 	"path/filepath"
 
 	"github.com/steakknife/bloomfilter"
-	"github.com/thomasjungblut/go-sstables/recordio"
-	rProto "github.com/thomasjungblut/go-sstables/recordio/proto"
-	"github.com/thomasjungblut/go-sstables/skiplist"
-	sProto "github.com/thomasjungblut/go-sstables/sstables/proto"
+	"github.com/thomasjungblut/go-sstables/v2/recordio"
+	rProto "github.com/thomasjungblut/go-sstables/v2/recordio/proto"
+	"github.com/thomasjungblut/go-sstables/v2/skiplist"
+	sProto "github.com/thomasjungblut/go-sstables/v2/sstables/proto"
 	"google.golang.org/protobuf/proto"
 )
 

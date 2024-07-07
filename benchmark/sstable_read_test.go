@@ -4,8 +4,8 @@ import (
 	"encoding/binary"
 	"errors"
 	"github.com/stretchr/testify/assert"
-	"github.com/thomasjungblut/go-sstables/skiplist"
-	"github.com/thomasjungblut/go-sstables/sstables"
+	"github.com/thomasjungblut/go-sstables/v2/skiplist"
+	"github.com/thomasjungblut/go-sstables/v2/sstables"
 	"os"
 	"testing"
 )

@@ -12,7 +12,7 @@ import (
 
 	"github.com/anishathalye/porcupine"
 	"github.com/stretchr/testify/require"
-	"github.com/thomasjungblut/go-sstables/simpledb"
+	"github.com/thomasjungblut/go-sstables/v2/simpledb"
 )
 
 type TestDatabase struct {

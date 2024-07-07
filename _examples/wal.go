@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	exProto "github.com/thomasjungblut/go-sstables/_examples/proto"
-	. "github.com/thomasjungblut/go-sstables/wal"
-	wProto "github.com/thomasjungblut/go-sstables/wal/proto"
+	exProto "github.com/thomasjungblut/go-sstables/v2/_examples/proto"
+	. "github.com/thomasjungblut/go-sstables/v2/wal"
+	wProto "github.com/thomasjungblut/go-sstables/v2/wal/proto"
 	pb "google.golang.org/protobuf/proto"
 	"log"
 	"os"

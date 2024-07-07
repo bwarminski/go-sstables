@@ -3,7 +3,7 @@ package wal
 import (
 	"errors"
 	"fmt"
-	"github.com/thomasjungblut/go-sstables/recordio"
+	"github.com/thomasjungblut/go-sstables/v2/recordio"
 	"io"
 	"os"
 	"path/filepath"

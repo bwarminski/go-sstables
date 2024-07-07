@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/thomasjungblut/go-sstables/memstore"
-	"github.com/thomasjungblut/go-sstables/sstables"
+	"github.com/thomasjungblut/go-sstables/v2/memstore"
+	"github.com/thomasjungblut/go-sstables/v2/sstables"
 	"log"
 	"os"
 )

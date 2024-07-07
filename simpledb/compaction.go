@@ -1,10 +1,10 @@
 package simpledb
 
 import (
-	rProto "github.com/thomasjungblut/go-sstables/recordio/proto"
-	"github.com/thomasjungblut/go-sstables/simpledb/proto"
-	"github.com/thomasjungblut/go-sstables/skiplist"
-	"github.com/thomasjungblut/go-sstables/sstables"
+	rProto "github.com/thomasjungblut/go-sstables/v2/recordio/proto"
+	"github.com/thomasjungblut/go-sstables/v2/simpledb/proto"
+	"github.com/thomasjungblut/go-sstables/v2/skiplist"
+	"github.com/thomasjungblut/go-sstables/v2/sstables"
 	"log"
 	"os"
 	"path/filepath"

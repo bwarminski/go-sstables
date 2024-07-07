@@ -2,9 +2,9 @@ package simpledb
 
 import (
 	"fmt"
-	"github.com/thomasjungblut/go-sstables/simpledb/proto"
-	"github.com/thomasjungblut/go-sstables/skiplist"
-	"github.com/thomasjungblut/go-sstables/sstables"
+	"github.com/thomasjungblut/go-sstables/v2/simpledb/proto"
+	"github.com/thomasjungblut/go-sstables/v2/skiplist"
+	"github.com/thomasjungblut/go-sstables/v2/sstables"
 	"os"
 	"path/filepath"
 	"sort"

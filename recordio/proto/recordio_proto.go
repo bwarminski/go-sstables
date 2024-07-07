@@ -1,7 +1,7 @@
 package proto
 
 import "google.golang.org/protobuf/proto"
-import "github.com/thomasjungblut/go-sstables/recordio"
+import "github.com/thomasjungblut/go-sstables/v2/recordio"
 
 type ReaderI interface {
 	recordio.OpenClosableI

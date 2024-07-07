@@ -3,7 +3,7 @@ package sstables
 import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/thomasjungblut/go-sstables/skiplist"
+	"github.com/thomasjungblut/go-sstables/v2/skiplist"
 	"sort"
 	"testing"
 )

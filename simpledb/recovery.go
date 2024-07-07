@@ -10,11 +10,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/thomasjungblut/go-sstables/recordio"
-	rProto "github.com/thomasjungblut/go-sstables/recordio/proto"
-	dbproto "github.com/thomasjungblut/go-sstables/simpledb/proto"
-	"github.com/thomasjungblut/go-sstables/sstables"
-	"github.com/thomasjungblut/go-sstables/wal"
+	"github.com/thomasjungblut/go-sstables/v2/recordio"
+	rProto "github.com/thomasjungblut/go-sstables/v2/recordio/proto"
+	dbproto "github.com/thomasjungblut/go-sstables/v2/simpledb/proto"
+	"github.com/thomasjungblut/go-sstables/v2/sstables"
+	"github.com/thomasjungblut/go-sstables/v2/wal"
 	"google.golang.org/protobuf/proto"
 )
 

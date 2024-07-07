@@ -3,7 +3,7 @@ package simpledb
 import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
-	"github.com/thomasjungblut/go-sstables/sstables/proto"
+	"github.com/thomasjungblut/go-sstables/v2/sstables/proto"
 	"testing"
 )
 

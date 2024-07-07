@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/thomasjungblut/go-sstables/simpledb"
+	"github.com/thomasjungblut/go-sstables/v2/simpledb"
 )
 
 func main() {

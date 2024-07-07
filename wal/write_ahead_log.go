@@ -3,7 +3,7 @@ package wal
 import (
 	"errors"
 
-	"github.com/thomasjungblut/go-sstables/recordio"
+	"github.com/thomasjungblut/go-sstables/v2/recordio"
 )
 
 const DefaultMaxWalSize uint64 = 128 * 1024 * 1024 // 128mb

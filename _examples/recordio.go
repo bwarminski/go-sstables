@@ -2,9 +2,9 @@ package main
 
 import (
 	"errors"
-	"github.com/thomasjungblut/go-sstables/_examples/proto"
-	"github.com/thomasjungblut/go-sstables/recordio"
-	rProto "github.com/thomasjungblut/go-sstables/recordio/proto"
+	"github.com/thomasjungblut/go-sstables/v2/_examples/proto"
+	"github.com/thomasjungblut/go-sstables/v2/recordio"
+	rProto "github.com/thomasjungblut/go-sstables/v2/recordio/proto"
 	"io"
 	"log"
 	"os"

@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/ncw/directio"
-	"github.com/thomasjungblut/go-sstables/recordio"
+	"github.com/thomasjungblut/go-sstables/v2/recordio"
 	"google.golang.org/protobuf/proto"
 )
 

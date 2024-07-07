@@ -2,7 +2,7 @@ package main
 
 import (
 	"errors"
-	"github.com/thomasjungblut/go-sstables/skiplist"
+	"github.com/thomasjungblut/go-sstables/v2/skiplist"
 	"log"
 )
 

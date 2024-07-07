@@ -2,8 +2,8 @@ package simpledb
 
 import (
 	"errors"
-	"github.com/thomasjungblut/go-sstables/memstore"
-	"github.com/thomasjungblut/go-sstables/sstables"
+	"github.com/thomasjungblut/go-sstables/v2/memstore"
+	"github.com/thomasjungblut/go-sstables/v2/sstables"
 )
 
 // RWMemstore the RW memstore contains two memstores, one for reading, one for writing.

@@ -3,8 +3,8 @@ package sstables
 import (
 	"errors"
 	"fmt"
-	"github.com/thomasjungblut/go-sstables/pq"
-	"github.com/thomasjungblut/go-sstables/skiplist"
+	"github.com/thomasjungblut/go-sstables/v2/pq"
+	"github.com/thomasjungblut/go-sstables/v2/skiplist"
 )
 
 type SSTableMergeIteratorContext struct {

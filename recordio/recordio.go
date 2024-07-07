@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/thomasjungblut/go-sstables/recordio/compressor"
+	"github.com/thomasjungblut/go-sstables/v2/recordio/compressor"
 )
 
 const Version1 uint32 = 0x01

@@ -4,7 +4,7 @@ import (
 	"encoding/binary"
 	"fmt"
 	pool "github.com/libp2p/go-buffer-pool"
-	"github.com/thomasjungblut/go-sstables/recordio/compressor"
+	"github.com/thomasjungblut/go-sstables/v2/recordio/compressor"
 	"io"
 )
 

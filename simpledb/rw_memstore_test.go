@@ -2,7 +2,7 @@ package simpledb
 
 import (
 	"github.com/stretchr/testify/assert"
-	"github.com/thomasjungblut/go-sstables/memstore"
+	"github.com/thomasjungblut/go-sstables/v2/memstore"
 	"strconv"
 	"testing"
 )

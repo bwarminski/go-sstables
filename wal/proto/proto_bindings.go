@@ -1,8 +1,8 @@
 package proto
 
 import (
-	"github.com/thomasjungblut/go-sstables/recordio"
-	w "github.com/thomasjungblut/go-sstables/wal"
+	"github.com/thomasjungblut/go-sstables/v2/recordio"
+	w "github.com/thomasjungblut/go-sstables/v2/wal"
 	"google.golang.org/protobuf/proto"
 )
 

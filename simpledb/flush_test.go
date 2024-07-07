@@ -3,8 +3,8 @@ package simpledb
 import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
-	"github.com/thomasjungblut/go-sstables/memstore"
-	"github.com/thomasjungblut/go-sstables/skiplist"
+	"github.com/thomasjungblut/go-sstables/v2/memstore"
+	"github.com/thomasjungblut/go-sstables/v2/skiplist"
 	"os"
 	"path/filepath"
 	"sort"

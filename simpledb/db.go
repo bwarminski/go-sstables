@@ -8,12 +8,12 @@ import (
 
 	"google.golang.org/protobuf/proto"
 
-	"github.com/thomasjungblut/go-sstables/memstore"
-	"github.com/thomasjungblut/go-sstables/recordio"
-	dbproto "github.com/thomasjungblut/go-sstables/simpledb/proto"
-	"github.com/thomasjungblut/go-sstables/skiplist"
-	"github.com/thomasjungblut/go-sstables/sstables"
-	"github.com/thomasjungblut/go-sstables/wal"
+	"github.com/thomasjungblut/go-sstables/v2/memstore"
+	"github.com/thomasjungblut/go-sstables/v2/recordio"
+	dbproto "github.com/thomasjungblut/go-sstables/v2/simpledb/proto"
+	"github.com/thomasjungblut/go-sstables/v2/skiplist"
+	"github.com/thomasjungblut/go-sstables/v2/sstables"
+	"github.com/thomasjungblut/go-sstables/v2/wal"
 )
 
 const SSTablePrefix = "sstable"

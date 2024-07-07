@@ -2,8 +2,8 @@ package memstore
 
 import (
 	"errors"
-	"github.com/thomasjungblut/go-sstables/skiplist"
-	"github.com/thomasjungblut/go-sstables/sstables"
+	"github.com/thomasjungblut/go-sstables/v2/skiplist"
+	"github.com/thomasjungblut/go-sstables/v2/sstables"
 )
 
 var KeyAlreadyExists = errors.New("key already exists")

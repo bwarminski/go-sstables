@@ -19,9 +19,9 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/thomasjungblut/go-sstables/simpledb/porcupine"
+	"github.com/thomasjungblut/go-sstables/v2/simpledb/porcupine"
 
-	"github.com/thomasjungblut/go-sstables/simpledb"
+	"github.com/thomasjungblut/go-sstables/v2/simpledb"
 )
 
 func TestOutOfProcessCrashesSimpleAscendingWorkload(t *testing.T) {

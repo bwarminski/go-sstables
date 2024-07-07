@@ -2,10 +2,10 @@ package sstables
 
 import (
 	"errors"
-	"github.com/thomasjungblut/go-sstables/recordio"
-	rProto "github.com/thomasjungblut/go-sstables/recordio/proto"
-	"github.com/thomasjungblut/go-sstables/skiplist"
-	"github.com/thomasjungblut/go-sstables/sstables/proto"
+	"github.com/thomasjungblut/go-sstables/v2/recordio"
+	rProto "github.com/thomasjungblut/go-sstables/v2/recordio/proto"
+	"github.com/thomasjungblut/go-sstables/v2/skiplist"
+	"github.com/thomasjungblut/go-sstables/v2/sstables/proto"
 )
 
 type SSTableIterator struct {

@@ -8,7 +8,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/thomasjungblut/go-sstables/simpledb"
+	"github.com/thomasjungblut/go-sstables/v2/simpledb"
 )
 
 const address = "0.0.0.0:29071"

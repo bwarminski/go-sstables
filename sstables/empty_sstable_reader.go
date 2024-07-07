@@ -1,7 +1,7 @@
 package sstables
 
 import (
-	"github.com/thomasjungblut/go-sstables/sstables/proto"
+	"github.com/thomasjungblut/go-sstables/v2/sstables/proto"
 )
 
 // these types are mostly used for testing or default behaviour of an empty sstable
