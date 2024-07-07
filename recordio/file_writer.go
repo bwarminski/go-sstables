@@ -22,7 +22,7 @@ type FileWriter struct {
 	open   bool
 	closed bool
 
-	file               *os.File
+	file               NamedSyncer
 	bufWriter          WriteCloserFlusher
 	currentOffset      uint64
 	compressionType    int
@@ -193,7 +193,7 @@ func (w *FileWriter) Close() error {
 	if err != nil {
 		return fmt.Errorf("failed to flush close in file at '%s' failed with %w", w.file.Name(), err)
 	}
-	err = w.file.Close()
+	err = w.bufWriter.Close()
 	if err != nil {
 		return fmt.Errorf("failed to close file at '%s' failed with %w", w.file.Name(), err)
 	}
@@ -212,6 +212,7 @@ type FileWriterOptions struct {
 	compressionType int
 	bufferSizeBytes int
 	enableDirectIO  bool
+	factory         ReaderWriterCloserFactory
 }
 
 type FileWriterOption func(*FileWriterOptions)
@@ -256,6 +257,12 @@ func DirectIO() FileWriterOption {
 	}
 }
 
+func Factory(f ReaderWriterCloserFactory) FileWriterOption {
+	return func(args *FileWriterOptions) {
+		args.factory = f
+	}
+}
+
 // NewFileWriter creates a new writer with the given options, either Path or File must be supplied, compression is optional.
 func NewFileWriter(writerOptions ...FileWriterOption) (WriterI, error) {
 	opts := &FileWriterOptions{
@@ -279,7 +286,9 @@ func NewFileWriter(writerOptions ...FileWriterOption) (WriterI, error) {
 	}
 
 	var factory ReaderWriterCloserFactory
-	if opts.enableDirectIO {
+	if opts.factory != nil {
+		factory = opts.factory
+	} else if opts.enableDirectIO {
 		factory = DirectIOFactory{}
 	} else {
 		factory = BufferedIOFactory{}
@@ -301,7 +310,7 @@ func NewFileWriter(writerOptions ...FileWriterOption) (WriterI, error) {
 }
 
 // creates a new writer with the given os.File, with the desired compression
-func newCompressedFileWriterWithFile(file *os.File, bufWriter WriteCloserFlusher, compType int, alignedBlockWrites bool) (WriterI, error) {
+func newCompressedFileWriterWithFile(file NamedSyncer, bufWriter WriteCloserFlusher, compType int, alignedBlockWrites bool) (WriterI, error) {
 	return &FileWriter{
 		file:               file,
 		bufWriter:          bufWriter,
@@ -311,4 +320,10 @@ func newCompressedFileWriterWithFile(file *os.File, bufWriter WriteCloserFlusher
 		compressionType:    compType,
 		currentOffset:      0,
 	}, nil
+}
+
+type NamedSyncer interface {
+	Sync() error
+	Name() string
+	Close() error
 }

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"hash/fnv"
+	"io"
 	"os"
 	"path/filepath"
 
@@ -18,13 +19,9 @@ import (
 type SSTableStreamWriter struct {
 	opts *SSTableWriterOptions
 
-	indexFilePath string
-	dataFilePath  string
-	metaFilePath  string
-
-	indexWriter  rProto.WriterI
-	dataWriter   recordio.WriterI
-	metaDataFile *os.File
+	indexWriter    rProto.WriterI
+	dataWriter     recordio.WriterI
+	metaDataWriter io.WriteCloser
 
 	bloomFilter *bloomfilter.Filter
 	metaData    *sProto.MetaData
@@ -33,42 +30,54 @@ type SSTableStreamWriter struct {
 }
 
 func (writer *SSTableStreamWriter) Open() error {
-	writer.indexFilePath = filepath.Join(writer.opts.basePath, IndexFileName)
-	iWriter, err := rProto.NewWriter(
-		rProto.Path(writer.indexFilePath),
-		rProto.CompressionType(writer.opts.indexCompressionType),
-		rProto.WriteBufferSizeBytes(writer.opts.writeBufferSizeBytes))
-	if err != nil {
-		return fmt.Errorf("error while creating index writer in '%s': %w", writer.opts.basePath, err)
+	if writer.opts.indexWriter == nil {
+		indexFilePath := filepath.Join(writer.opts.basePath, IndexFileName)
+		iWriter, err := rProto.NewWriter(
+			rProto.Path(indexFilePath),
+			rProto.CompressionType(writer.opts.indexCompressionType),
+			rProto.WriteBufferSizeBytes(writer.opts.writeBufferSizeBytes))
+		if err != nil {
+			return fmt.Errorf("error while creating index writer in '%s': %w", writer.opts.basePath, err)
+		}
+		writer.indexWriter = iWriter
+	} else {
+		writer.indexWriter = writer.opts.indexWriter
 	}
-	writer.indexWriter = iWriter
 
-	err = writer.indexWriter.Open()
+	err := writer.indexWriter.Open()
 	if err != nil {
 		return fmt.Errorf("error while opening index writer in '%s': %w", writer.opts.basePath, err)
 	}
 
-	writer.dataFilePath = filepath.Join(writer.opts.basePath, DataFileName)
-	dWriter, err := recordio.NewFileWriter(
-		recordio.Path(writer.dataFilePath),
-		recordio.CompressionType(writer.opts.dataCompressionType),
-		recordio.BufferSizeBytes(writer.opts.writeBufferSizeBytes))
-	if err != nil {
-		return fmt.Errorf("error while creating data writer in '%s': %w", writer.opts.basePath, err)
-	}
+	if writer.opts.dataWriter == nil {
+		dataFilePath := filepath.Join(writer.opts.basePath, DataFileName)
+		dWriter, err := recordio.NewFileWriter(
+			recordio.Path(dataFilePath),
+			recordio.CompressionType(writer.opts.dataCompressionType),
+			recordio.BufferSizeBytes(writer.opts.writeBufferSizeBytes))
+		if err != nil {
+			return fmt.Errorf("error while creating data writer in '%s': %w", writer.opts.basePath, err)
+		}
 
-	writer.dataWriter = dWriter
+		writer.dataWriter = dWriter
+	} else {
+		writer.dataWriter = writer.opts.dataWriter
+	}
 	err = writer.dataWriter.Open()
 	if err != nil {
 		return fmt.Errorf("error while opening data writer in '%s': %w", writer.opts.basePath, err)
 	}
 
-	writer.metaFilePath = filepath.Join(writer.opts.basePath, MetaFileName)
-	metaFile, err := os.OpenFile(writer.metaFilePath, os.O_WRONLY|os.O_CREATE, 0666)
-	if err != nil {
-		return fmt.Errorf("error while opening metadata file in '%s': %w", writer.opts.basePath, err)
+	if writer.opts.metaDataWriter == nil {
+		metaFilePath := filepath.Join(writer.opts.basePath, MetaFileName)
+		metaFile, err := os.OpenFile(metaFilePath, os.O_WRONLY|os.O_CREATE, 0666)
+		if err != nil {
+			return fmt.Errorf("error while opening metadata file in '%s': %w", writer.opts.basePath, err)
+		}
+		writer.metaDataWriter = metaFile
+	} else {
+		writer.metaDataWriter = writer.opts.metaDataWriter
 	}
-	writer.metaDataFile = metaFile
 	writer.metaData = &sProto.MetaData{
 		Version: Version,
 	}
@@ -158,12 +167,12 @@ func (writer *SSTableStreamWriter) Close() error {
 			return fmt.Errorf("error in serializing metadata in '%s': %w", writer.opts.basePath, err)
 		}
 
-		_, err = writer.metaDataFile.Write(bytes)
+		_, err = writer.metaDataWriter.Write(bytes)
 		if err != nil {
 			return fmt.Errorf("error in writing metadata in '%s': %w", writer.opts.basePath, err)
 		}
 
-		err = writer.metaDataFile.Close()
+		err = writer.metaDataWriter.Close()
 		if err != nil {
 			return fmt.Errorf("error in closing metadata in '%s': %w", writer.opts.basePath, err)
 		}
@@ -217,13 +226,17 @@ func NewSSTableStreamWriter(writerOptions ...WriterOption) (*SSTableStreamWriter
 		bloomExpectedNumberOfElements: 1000,
 		writeBufferSizeBytes:          1024 * 1024 * 4,
 		keyComparator:                 nil,
+		indexWriter:                   nil,
+		dataWriter:                    nil,
+		metaDataWriter:                nil,
+		bloomFilterWriter:             nil,
 	}
 
 	for _, writeOption := range writerOptions {
 		writeOption(opts)
 	}
 
-	if opts.basePath == "" {
+	if opts.NeedsBasePath() && opts.basePath == "" {
 		return nil, errors.New("basePath was not supplied")
 	}
 
@@ -259,6 +272,14 @@ type SSTableWriterOptions struct {
 	bloomFpProbability            float64
 	writeBufferSizeBytes          int
 	keyComparator                 skiplist.Comparator[[]byte]
+	indexWriter                   rProto.WriterI
+	dataWriter                    recordio.WriterI
+	metaDataWriter                io.WriteCloser
+	bloomFilterWriter             io.WriteCloser
+}
+
+func (opts *SSTableWriterOptions) NeedsBasePath() bool {
+	return opts.indexWriter == nil || opts.dataWriter == nil || opts.metaDataWriter == nil || (opts.bloomFilterWriter == nil && opts.enableBloomFilter)
 }
 
 type WriterOption func(*SSTableWriterOptions)
@@ -308,5 +329,29 @@ func WriteBufferSizeBytes(bufSizeBytes int) WriterOption {
 func WithKeyComparator(cmp skiplist.Comparator[[]byte]) WriterOption {
 	return func(args *SSTableWriterOptions) {
 		args.keyComparator = cmp
+	}
+}
+
+func WithIndexWriter(w rProto.WriterI) WriterOption {
+	return func(args *SSTableWriterOptions) {
+		args.indexWriter = w
+	}
+}
+
+func WithDataWriter(w recordio.WriterI) WriterOption {
+	return func(args *SSTableWriterOptions) {
+		args.dataWriter = w
+	}
+}
+
+func WithMetaDataWriter(w io.WriteCloser) WriterOption {
+	return func(args *SSTableWriterOptions) {
+		args.metaDataWriter = w
+	}
+}
+
+func WithBloomFilterWriter(w io.WriteCloser) WriterOption {
+	return func(args *SSTableWriterOptions) {
+		args.bloomFilterWriter = w
 	}
 }

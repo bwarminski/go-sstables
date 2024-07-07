@@ -49,6 +49,7 @@ type WriterOptions struct {
 	compressionType int
 	bufSizeBytes    int
 	useDirectIO     bool
+	factory         recordio.ReaderWriterCloserFactory
 }
 
 type WriterOption func(*WriterOptions)
@@ -80,6 +81,12 @@ func WriteBufferSizeBytes(p int) WriterOption {
 func DirectIO() WriterOption {
 	return func(args *WriterOptions) {
 		args.useDirectIO = true
+	}
+}
+
+func Factory(f recordio.ReaderWriterCloserFactory) WriterOption {
+	return func(args *WriterOptions) {
+		args.factory = f
 	}
 }
 
@@ -124,7 +131,8 @@ func NewWriter(writerOptions ...WriterOption) (WriterI, error) {
 	writer, err := recordio.NewFileWriter(
 		recordio.File(opts.file),
 		recordio.CompressionType(opts.compressionType),
-		recordio.BufferSizeBytes(opts.bufSizeBytes))
+		recordio.BufferSizeBytes(opts.bufSizeBytes),
+		recordio.Factory(opts.factory))
 	if err != nil {
 		return nil, err
 	}
