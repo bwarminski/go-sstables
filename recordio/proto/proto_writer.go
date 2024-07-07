@@ -109,7 +109,7 @@ func NewWriter(writerOptions ...WriterOption) (WriterI, error) {
 		return nil, errors.New("either os.File or string path must be supplied, never both")
 	}
 
-	if opts.file == nil {
+	if opts.file == nil && opts.factory == nil {
 		if opts.path == "" {
 			return nil, errors.New("path was not supplied")
 		}
